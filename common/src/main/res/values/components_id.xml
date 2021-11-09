@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="Explore_id" type="id"/>
+    <item name="SellTrade_id" type="id"/>
+    <item name="MyCars_id" type="id"/>
+    <item name="Account_id" type="id"/>
+    <item name="Prequal_id" type="id"/>
+</resources>
