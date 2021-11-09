@@ -33,11 +33,15 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // using common library
+    implementation(project(":common"))
+
+    // defining the dependencies exclusion to be added into other project deps
+    def depsExclude = { exclude(group: 'com.carvana.android.common', module: 'common') }
+
+    implementation(project(":account"), depsExclude)
+    implementation(project(":explore"), depsExclude)
+    implementation(project(":mycars"), depsExclude)
+    implementation(project(":prequal"), depsExclude)
+    implementation(project(":selltrade"), depsExclude)
 }
