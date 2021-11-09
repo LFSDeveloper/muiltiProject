@@ -1,6 +1,7 @@
 package com.carvana.android.common.models
 
 import androidx.annotation.IdRes
+import org.koin.core.module.Module
 
 /**
  * Describes an App Components on the following terms
@@ -23,5 +24,5 @@ data class AppComponentDetails(
     @IdRes val id: Int,
     val type: AppComponent,
     val mainEntryPoint: AppMainEntry? = null,
-    val objectGraph: List<Int>
+    val objectGraph: List<Module>
 )

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">sellTrade</string>
+    <string name="sell_trade_comp_label">Sell/Trade</string>
 </resources>

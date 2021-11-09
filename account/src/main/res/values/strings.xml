@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">account</string>
+    <string name="account_comp_label">Account</string>
 </resources>

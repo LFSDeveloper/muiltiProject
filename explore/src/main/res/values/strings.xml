@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">explore</string>
+    <string name="explore_comp_label">Explore</string>
 </resources>
