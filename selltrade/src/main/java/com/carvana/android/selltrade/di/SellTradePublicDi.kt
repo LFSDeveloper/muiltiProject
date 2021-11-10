@@ -6,5 +6,5 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val sellTradeCompPublicDi = module {
-    single<AppCompPublicFace> { SellTradeInterface() } bind AppCompPublicFace::class
+    single { SellTradeInterface() } bind AppCompPublicFace::class
 }

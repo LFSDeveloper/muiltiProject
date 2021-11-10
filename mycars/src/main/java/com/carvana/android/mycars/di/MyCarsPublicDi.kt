@@ -6,5 +6,5 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val myCarsCompPublicDi = module {
-    single<AppCompPublicFace> { MyCardsInterface() } bind AppCompPublicFace::class
+    single { MyCardsInterface() } bind AppCompPublicFace::class
 }

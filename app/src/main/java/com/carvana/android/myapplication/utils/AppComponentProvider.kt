@@ -1,14 +1,17 @@
 package com.carvana.android.myapplication.utils
 
-import com.carvana.android.common.models.AppComponent
 import com.carvana.android.common.utils.AppCompPublicFace
 import org.koin.core.Koin
+import org.koin.core.module.Module
 import java.lang.IllegalStateException
 
 /**
  * Defines the App Component provider
  */
 object AppComponentProvider {
+
+    private val appModules: List<Module>
+        get() = listOf()
 
     /**
      * Holds all the app components that are currently loaded in DI at minimum
@@ -20,7 +23,7 @@ object AppComponentProvider {
      *
      * Note: This does not mean components are inflated/loaded
      */
-    var appComponents: List<AppCompPublicFace> = mutableListOf()
+    var appComponents: Set<AppCompPublicFace> = setOf()
         private set
 
     /**
@@ -28,7 +31,9 @@ object AppComponentProvider {
      * entry points
      */
     val mainEntryComponents: List<AppCompPublicFace>
-        get() = appComponents.filter { it.getDetails().mainEntryPoint != null }
+        get() = appComponents.filter { it.getDetails().mainEntryPoint != null }.sortedBy {
+            it.getDetails().mainEntryPoint?.order
+        }
 
     /**
      * Returns the app home component
@@ -72,11 +77,15 @@ object AppComponentProvider {
         appComponents.takeIf { it.isEmpty() } ?: return
 
         // get all app components presentation cards thought koin
-        appComponents = koin.getAll()
+        val appComponentInterfaces: List<AppCompPublicFace> = koin.getAll()
+        appComponents = appComponentInterfaces.toSet()
 
         // load main entry components object graphs into Koin
         mainEntryComponents.forEach {
             inflateComponent(koin, it)
         }
+
+        // add app DI object graph
+        koin.loadModules(appModules)
     }
 }

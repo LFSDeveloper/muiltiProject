@@ -6,5 +6,5 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val prequalCompPublicDi = module {
-    single<AppCompPublicFace> { PrequalInterface() } bind AppCompPublicFace::class
+    single { PrequalInterface() } bind AppCompPublicFace::class
 }
