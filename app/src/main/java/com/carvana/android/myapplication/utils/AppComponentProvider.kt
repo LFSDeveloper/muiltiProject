@@ -1,9 +1,9 @@
 package com.carvana.android.myapplication.utils
 
 import com.carvana.android.common.utils.AppCompPublicFace
+import com.carvana.android.myapplication.di.viewModels
 import org.koin.core.Koin
 import org.koin.core.module.Module
-import java.lang.IllegalStateException
 
 /**
  * Defines the App Component provider
@@ -11,7 +11,7 @@ import java.lang.IllegalStateException
 object AppComponentProvider {
 
     private val appModules: List<Module>
-        get() = listOf()
+        get() = listOf(viewModels)
 
     /**
      * Holds all the app components that are currently loaded in DI at minimum
