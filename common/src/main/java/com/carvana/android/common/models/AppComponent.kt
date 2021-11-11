@@ -9,9 +9,9 @@ enum class AppComponent(
     val features: List<AppFeature> = listOf()
 ) {
 
-    Explore(listOf(AppFeature.Srp, AppFeature.VDP, AppFeature.Filters)),
-    SellTrade,
-    MyCars(listOf(AppFeature.OwnedCars, AppFeature.FavoriteCars)),
-    Account,
-    Prequal
+    Explore(listOf(AppFeature.ExploreHome, AppFeature.Srp, AppFeature.VDP, AppFeature.Filters)),
+    SellTrade(listOf(AppFeature.SellTradeHome)),
+    MyCars(listOf(AppFeature.MyCarsHome, AppFeature.OwnedCars, AppFeature.FavoriteCars)),
+    Account(listOf(AppFeature.AccountHome)),
+    Prequal(listOf(AppFeature.PrequalHome))
 }

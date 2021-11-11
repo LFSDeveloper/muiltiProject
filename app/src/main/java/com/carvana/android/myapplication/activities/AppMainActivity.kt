@@ -8,10 +8,14 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.carvana.android.common.bases.AppBaseActivity
+import com.carvana.android.common.bases.AppDelegate
+import com.carvana.android.common.models.AppFeature
 import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
 import com.carvana.android.myapplication.utils.AppComponentProvider
+import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -19,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class AppMainActivity : AppBaseActivity() {
 
+    private val appDelegate: AppDelegate by inject()
 
     private val viewModel: AppMainActivityViewModel by viewModel()
     private var viewBinding: ActivityMainBinding? = null
@@ -33,11 +38,15 @@ class AppMainActivity : AppBaseActivity() {
 
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        AppComponentProvider.mainEntryComponents.apply {
+        AppComponentProvider.mainEntryCompPublicFaces.apply {
             inflateBottomNav(this)
             createAppNavGraph(this)
 
             navController?.let { viewBinding?.appNavBar?.setupWithNavController(it) }
+        }
+
+        appDelegate.mainAppNavFlow.observe(this) {
+            onMainEntryCompoNav(it)
         }
     }
 
@@ -99,5 +108,21 @@ class AppMainActivity : AppBaseActivity() {
                 viewBinding?.appNavBar?.selectedItemId = menuId
             }
         }
+    }
+
+    /**
+     * Handles navigation into components that participate into the app main entries
+     */
+    private fun onMainEntryCompoNav(feature: AppFeature) {
+        val componentType = AppComponentProvider.mainEntryCompPublicFaces.map {
+            it.getDetails().type
+        }.find { feature in it.features }
+
+        val component = componentType?.let { AppComponentProvider.getOrInflateComp(it, getKoin()) }
+        val componentGraph = component?.getDetails()?.mainEntry?.navGraph?.let {
+            navController?.navInflater?.inflate(it)
+        }
+        val tabId = componentGraph?.startDestinationId
+        tabId?.let { viewBinding?.appNavBar?.selectedItemId = it }
     }
 }
