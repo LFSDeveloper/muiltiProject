@@ -1,6 +1,6 @@
 package com.carvana.android.common.utils
 
-import com.carvana.android.common.models.AppComponentDetails
+import com.carvana.android.common.models.AppComponentInfo
 import com.carvana.android.common.models.AppFeature
 
 /**
@@ -11,7 +11,7 @@ interface AppCompPublicFace {
     /**
      * Offers a component description
      */
-    fun getDetails(): AppComponentDetails
+    fun getDetails(): AppComponentInfo
 
     /**
      * Handles the navigation to an internal section of a component

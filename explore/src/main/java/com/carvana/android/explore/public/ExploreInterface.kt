@@ -1,29 +1,28 @@
 package com.carvana.android.explore.public
 
 import com.carvana.android.common.models.AppComponent
-import com.carvana.android.common.R as commonR
-import com.carvana.android.common.models.AppComponentDetails
+import com.carvana.android.common.models.AppComponentInfo
 import com.carvana.android.common.models.AppFeature
 import com.carvana.android.common.models.AppMainEntry
 import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.explore.R
 import com.carvana.android.explore.di.accountMainModule
 import com.carvana.android.explore.di.viewModels
+import com.carvana.android.common.R as commonR
 
 /**
  * Account Public Interface Implementer
  */
 class ExploreInterface : AppCompPublicFace {
 
-    override fun getDetails(): AppComponentDetails = AppComponentDetails(
+    override fun getDetails(): AppComponentInfo = AppComponentInfo(
         id = commonR.id.Explore_id,
         type = AppComponent.Explore,
-        mainEntryPoint = AppMainEntry(
-            id = commonR.id.Explore_id,
+        mainEntry = AppMainEntry(
             order = 0,
             label = R.string.explore_comp_label,
             icon = null,
-            mainNav = R.navigation.explore_main_nav_graph,
+            navGraph = R.navigation.explore_main_nav_graph,
             home = true
         ),
         objectGraph = listOf(accountMainModule, viewModels)

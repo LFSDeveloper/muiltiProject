@@ -5,10 +5,15 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
 import com.carvana.android.myapplication.utils.AppComponentProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalStateException
 
 /**
  * Represent the app main activity as the main navigation host to all the app components
@@ -18,35 +23,84 @@ class AppMainActivity : AppCompatActivity() {
     private val viewModel: AppMainActivityViewModel by viewModel()
     private var viewBinding: ActivityMainBinding? = null
 
+    /**
+     * Returns the app navController extracted from the NavHost Fragment
+     */
+    val navController: NavController?
+        get() = (supportFragmentManager.findFragmentById(
+            R.id.app_nav_host_fragment
+        ) as? NavHostFragment)?.navController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        inflateBottomNav()
+        AppComponentProvider.mainEntryComponents.apply {
+            inflateBottomNav(this)
+            createAppNavGraph(this)
+
+            navController?.let { viewBinding?.appNavBar?.setupWithNavController(it) }
+        }
+    }
+
+    private fun createAppNavGraph(mainEntryComps: List<AppCompPublicFace>) {
+        val loadedNavController = navController
+
+        // inflating app main navigation graph
+        val mainNavGraph = loadedNavController?.navInflater?.inflate(R.navigation.main_nav_graph)
+
+        mainEntryComps.mapNotNull { it.getDetails().mainEntry }.map { mainEntryInfo ->
+            // inflate component nav graph
+            loadedNavController?.navInflater?.inflate(
+                mainEntryInfo.navGraph
+            )?.let { nestedNavGraph ->
+                mainNavGraph?.apply {
+                    // add component nav graph into app main nav
+                    addAll(nestedNavGraph)
+
+                    // if true, inflated component nav graph is home
+                    if (mainEntryInfo.home) {
+                        setStartDestination(nestedNavGraph.startDestinationId)
+                    }
+                }
+            }
+        }
+
+        mainNavGraph?.let { loadedNavController?.graph = it }
     }
 
     /**
      * Inflates the bottom navigator menu out of the main entry components
      */
-    private fun inflateBottomNav() {
-        // holds the main entry components entry descriptions
-        val mainEntryComp = AppComponentProvider.mainEntryComponents.mapNotNull {
-            it.getDetails().mainEntryPoint
-        }
+    private fun inflateBottomNav(mainEntryComps: List<AppCompPublicFace>) {
+        // holds the main components entry information
+        val mainEntries = mainEntryComps.mapNotNull { it.getDetails().mainEntry }
+        val navInflater = navController?.navInflater
 
         val menu = viewBinding?.appNavBar?.menu
-        mainEntryComp.forEach { mainEntryInfo ->
+        mainEntries.forEach { mainEntryInfo ->
             val tabTitle = getString(mainEntryInfo.label)
-            val menuItem = menu?.add(Menu.NONE, mainEntryInfo.id, mainEntryInfo.order, tabTitle)
+
+            // generate the bottomNav MenuItem Id from the main entry component navGraph start Dest
+            // this is to be in compliance with navigation component principles
+            val menuId = navInflater?.inflate(mainEntryInfo.navGraph)?.startDestinationId
+                ?: throw IllegalStateException(
+                    "Couldn't generate MenuItem Id for $tabTitle BottomNav Tab"
+                )
+
+            // important Menu.CATEGORY_SECONDARY should be used all the time to keep
+            // fragment multi-stack alive
+            val menuItem = menu?.add(
+                Menu.CATEGORY_SECONDARY, menuId, mainEntryInfo.order, tabTitle
+            )
             mainEntryInfo.icon?.let {
                 menuItem?.icon = ContextCompat.getDrawable(this, it)
             }
-        }
 
-        // set the home component
-        mainEntryComp.find { it.home }?.let {
-            viewBinding?.appNavBar?.selectedItemId = it.id
+            if (mainEntryInfo.home) {
+                viewBinding?.appNavBar?.selectedItemId = menuId
+            }
         }
     }
 }

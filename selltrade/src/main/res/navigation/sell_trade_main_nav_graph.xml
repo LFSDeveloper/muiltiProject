@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/account_main_nav_graph">
+    android:id="@+id/account_main_nav_graph"
+    app:startDestination="@id/sellTradeFragment">
 
+    <fragment
+        android:id="@+id/sellTradeFragment"
+        android:name="com.carvana.android.selltrade.fragments.SellTradeFragment"
+        android:label="SellTradeFragment" />
 </navigation>

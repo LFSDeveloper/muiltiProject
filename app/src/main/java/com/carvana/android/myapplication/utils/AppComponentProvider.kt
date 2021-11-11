@@ -31,15 +31,15 @@ object AppComponentProvider {
      * entry points
      */
     val mainEntryComponents: List<AppCompPublicFace>
-        get() = appComponents.filter { it.getDetails().mainEntryPoint != null }.sortedBy {
-            it.getDetails().mainEntryPoint?.order
+        get() = appComponents.filter { it.getDetails().isMainAppEntry }.sortedBy {
+            it.getDetails().mainEntry?.order
         }
 
     /**
      * Returns the app home component
      */
     val homeEntryComponent: AppCompPublicFace
-        get() = mainEntryComponents.find { it.getDetails().mainEntryPoint?.home != null }
+        get() = mainEntryComponents.find { it.getDetails().mainEntry?.home != null }
             ?: throw IllegalStateException("There is no home app component")
 
     /**
