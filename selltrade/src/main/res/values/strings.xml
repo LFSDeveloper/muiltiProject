@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">sellTrade</string>
     <string name="sell_trade_comp_label">Sell/Trade</string>
+    <string name="sell_trade_screen_title">Sell - Trade</string>
+    <string name="sell_trade_next_step_screen_title">Next Steps</string>
 </resources>

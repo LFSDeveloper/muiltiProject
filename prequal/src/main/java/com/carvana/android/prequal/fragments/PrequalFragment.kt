@@ -6,18 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.carvana.android.common.bases.AppBaseFragment
+import com.carvana.android.common.models.ScreenInfo
 import com.carvana.android.prequal.R
 
 /**
  * Represents the Prequal Component Landing Screen
  */
-class PrequalFragment: AppBaseFragment() {
+class PrequalFragment : AppBaseFragment() {
 
-    override fun onCreateView(
+    override val screenInfo: ScreenInfo = ScreenInfo(
+        title = R.string.prequal_screen_title,
+        isTop = true
+    )
+
+    override fun generateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_prequal, container, false)
 
         view.findViewById<Button>(R.id.button)?.apply {
@@ -27,4 +33,5 @@ class PrequalFragment: AppBaseFragment() {
         }
         return view
     }
+
 }

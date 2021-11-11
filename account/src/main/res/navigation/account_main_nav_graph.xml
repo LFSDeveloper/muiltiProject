@@ -7,10 +7,14 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.carvana.android.account.fragments.AccountFragment"
-        android:label="AccountFragment" >
+        android:label="AccountFragment">
         <action
             android:id="@+id/action_accountFragment_to_notifications"
-            app:destination="@id/notifications" />
+            app:destination="@id/notifications"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/notifications"

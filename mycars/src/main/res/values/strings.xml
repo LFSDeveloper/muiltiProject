@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">mycars</string>
     <string name="my_cars_comp_label">My Cars</string>
+    <string name="my_cars_screen_title">My Cars</string>
+    <string name="my_cars_favorite_screen_title">Favorites</string>
 </resources>

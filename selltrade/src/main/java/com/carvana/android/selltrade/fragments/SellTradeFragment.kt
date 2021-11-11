@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.carvana.android.common.bases.AppBaseFragment
+import com.carvana.android.common.models.ScreenInfo
 import com.carvana.android.selltrade.R
 
 /**
@@ -13,11 +14,16 @@ import com.carvana.android.selltrade.R
  */
 class SellTradeFragment: AppBaseFragment() {
 
-    override fun onCreateView(
+    override val screenInfo: ScreenInfo = ScreenInfo(
+        title = R.string.sell_trade_screen_title,
+        isTop = true
+    )
+
+    override fun generateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_sell_trade, container, false)
 
         view.findViewById<Button>(R.id.button)?.apply {

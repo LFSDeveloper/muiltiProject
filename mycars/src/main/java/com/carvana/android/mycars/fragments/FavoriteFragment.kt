@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.carvana.android.common.bases.AppBaseFragment
+import com.carvana.android.common.models.ScreenInfo
 import com.carvana.android.mycars.R
 
-class FavoriteFragment: Fragment() {
+class FavoriteFragment: AppBaseFragment() {
 
-    override fun onCreateView(
+    override val screenInfo: ScreenInfo = ScreenInfo(
+        title = R.string.my_cars_favorite_screen_title
+    )
+
+    override fun generateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
+
 }

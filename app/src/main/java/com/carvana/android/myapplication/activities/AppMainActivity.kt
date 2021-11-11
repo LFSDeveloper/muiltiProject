@@ -64,7 +64,7 @@ class AppMainActivity : AppBaseActivity() {
             }
         }
 
-        mainNavGraph?.let { loadedNavController?.graph = it }
+        mainNavGraph?.let { loadedNavController.graph = it }
     }
 
     /**

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.carvana.android.common.bases.AppBaseFragment
+import com.carvana.android.common.models.ScreenInfo
 import com.carvana.android.explore.R
 
 /**
@@ -13,11 +14,16 @@ import com.carvana.android.explore.R
  */
 class ExploreFragment : AppBaseFragment() {
 
-    override fun onCreateView(
+    override val screenInfo: ScreenInfo = ScreenInfo(
+        title = R.string.explore_screen_title,
+        isTop = true
+    )
+
+    override fun generateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val fragmentView = inflater.inflate(R.layout.fragment_explore, container, false)
 
         fragmentView.findViewById<Button>(R.id.button)?.apply {
