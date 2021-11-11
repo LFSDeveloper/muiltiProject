@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/sellTradeFragment"
         android:name="com.carvana.android.selltrade.fragments.SellTradeFragment"
-        android:label="SellTradeFragment" />
+        android:label="SellTradeFragment" >
+        <action
+            android:id="@+id/action_sellTradeFragment_to_nextStepsFragment"
+            app:destination="@id/nextStepsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nextStepsFragment"
+        android:name="com.carvana.android.selltrade.fragments.NextStepsFragment"
+        android:label="NextStepsFragment" />
 </navigation>

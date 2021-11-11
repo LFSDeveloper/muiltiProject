@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/myCarsFragment"
         android:name="com.carvana.android.mycars.fragments.MyCarsFragment"
-        android:label="MyCarsFragment" />
+        android:label="MyCarsFragment" >
+        <action
+            android:id="@+id/action_myCarsFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.carvana.android.mycars.fragments.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

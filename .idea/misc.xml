@@ -5,10 +5,15 @@
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.5851282051282052" />
         <entry key="account/src/main/res/layout/fragment_account.xml" value="0.5778985507246377" />
+        <entry key="account/src/main/res/layout/fragment_notifications.xml" value="0.5791666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5778985507246377" />
         <entry key="explore/src/main/res/layout/fragment_explore.xml" value="0.5778985507246377" />
+        <entry key="explore/src/main/res/layout/fragment_search.xml" value="0.281661600810537" />
+        <entry key="mycars/src/main/res/layout/fragment_favorite.xml" value="0.5791666666666667" />
         <entry key="mycars/src/main/res/layout/fragment_my_cars.xml" value="0.5778985507246377" />
+        <entry key="prequal/src/main/res/layout/fragment_personal_info.xml" value="0.5791666666666667" />
         <entry key="prequal/src/main/res/layout/fragment_prequal.xml" value="0.29583333333333334" />
+        <entry key="selltrade/src/main/res/layout/fragment_next_steps.xml" value="0.5791666666666667" />
         <entry key="selltrade/src/main/res/layout/fragment_sell_trade.xml" value="0.29583333333333334" />
       </map>
     </option>

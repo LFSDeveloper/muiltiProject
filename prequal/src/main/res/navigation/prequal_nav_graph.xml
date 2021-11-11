@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/prequalFragment"
         android:name="com.carvana.android.prequal.fragments.PrequalFragment"
-        android:label="PrequalFragment" />
+        android:label="PrequalFragment" >
+        <action
+            android:id="@+id/action_prequalFragment_to_personalInfoFragment"
+            app:destination="@id/personalInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.carvana.android.prequal.fragments.PersonalInfoFragment"
+        android:label="PersonalInfoFragment" />
 </navigation>

@@ -2,32 +2,29 @@ package com.carvana.android.myapplication.activities
 
 import android.os.Bundle
 import android.view.Menu
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.carvana.android.common.bases.AppBaseActivity
 import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
 import com.carvana.android.myapplication.utils.AppComponentProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalStateException
 
 /**
  * Represent the app main activity as the main navigation host to all the app components
  */
-class AppMainActivity : AppCompatActivity() {
+class AppMainActivity : AppBaseActivity() {
+
 
     private val viewModel: AppMainActivityViewModel by viewModel()
     private var viewBinding: ActivityMainBinding? = null
 
-    /**
-     * Returns the app navController extracted from the NavHost Fragment
-     */
-    val navController: NavController?
-        get() = (supportFragmentManager.findFragmentById(
+    override val navController: NavController?
+        get() =  (supportFragmentManager.findFragmentById(
             R.id.app_nav_host_fragment
         ) as? NavHostFragment)?.navController
 

@@ -7,5 +7,13 @@
     <fragment
         android:id="@id/Explore_id"
         android:name="com.carvana.android.explore.fragments.ExploreFragment"
-        android:label="ExploreFragment" />
+        android:label="ExploreFragment" >
+        <action
+            android:id="@+id/action_Explore_id_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.carvana.android.explore.fragments.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>
