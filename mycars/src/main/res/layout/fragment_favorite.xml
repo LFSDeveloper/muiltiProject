@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Favorite Screen"
@@ -12,4 +13,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/search_modal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Launch Search as Modal"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text" />
+
+    <Button
+        android:id="@+id/search_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go To Search"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_modal" />
 </androidx.constraintlayout.widget.ConstraintLayout>

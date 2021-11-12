@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">prequal</string>
     <string name="prequal_screen_title">Prequal Landing</string>
+    <string name="prequal_personal_screen_title">Personal Info Screen</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.carvana.android.account.public
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import com.carvana.android.account.R
 import com.carvana.android.account.di.accountMainModule
 import com.carvana.android.account.di.viewModels
@@ -13,9 +16,11 @@ import com.carvana.android.common.R as commonR
 /**
  * Account Public Interface Implementer
  */
-class AccountInterface : AppCompPublicFace {
+class AccountInterface(
+    context: Context
+) : AppCompPublicFace(context) {
 
-    override fun getDetails(): AppComponentInfo = AppComponentInfo(
+    override fun getInfo(): AppComponentInfo = AppComponentInfo(
         id = commonR.id.Account_id,
         type = AppComponent.Account,
         mainEntry = AppMainEntry(
@@ -28,9 +33,7 @@ class AccountInterface : AppCompPublicFace {
         objectGraph = listOf(accountMainModule, viewModels)
     )
 
-    override fun navigateTo(feature: AppFeature) {
-        if (feature !in getDetails().type.features) {
-            // do nothing, associated component does not support target feature
-        }
+    override fun getLaunchingIntent(feature: AppFeature, bundle: Bundle?): Intent? {
+        return null
     }
 }

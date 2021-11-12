@@ -1,9 +1,13 @@
 package com.carvana.android.prequal.public
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import com.carvana.android.common.models.AppComponent
 import com.carvana.android.common.models.AppComponentInfo
 import com.carvana.android.common.models.AppFeature
 import com.carvana.android.common.utils.AppCompPublicFace
+import com.carvana.android.prequal.activities.PrequalModalActivity
 import com.carvana.android.prequal.di.accountMainModule
 import com.carvana.android.prequal.di.viewModels
 import com.carvana.android.common.R as commonR
@@ -11,18 +15,21 @@ import com.carvana.android.common.R as commonR
 /**
  * Account Public Interface Implementer
  */
-class PrequalInterface : AppCompPublicFace {
+class PrequalInterface(
+    context: Context
+) : AppCompPublicFace(context) {
 
-    override fun getDetails(): AppComponentInfo = AppComponentInfo(
+    override fun getInfo(): AppComponentInfo = AppComponentInfo(
         id = commonR.id.Prequal_id,
         type = AppComponent.Prequal,
         mainEntry = null,
         objectGraph = listOf(accountMainModule, viewModels)
     )
 
-    override fun navigateTo(feature: AppFeature) {
-        if (feature !in getDetails().type.features) {
-            // do nothing, associated component does not support target feature
+    override fun getLaunchingIntent(feature: AppFeature, bundle: Bundle?): Intent? {
+        return when (feature) {
+            AppFeature.PrequalHome -> PrequalModalActivity.getIntent(context)
+            else -> null
         }
     }
 }

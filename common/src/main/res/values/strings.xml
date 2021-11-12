@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_package_name">com.carvana.android.myapplication</string>
     <string name="app_name">common</string>
     <string name="explore_label">Explore</string>
 </resources>

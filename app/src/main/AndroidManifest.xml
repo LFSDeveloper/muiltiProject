@@ -9,7 +9,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:taskAffinity="@string/app_package_name"
         android:theme="@style/Theme.MyApplication">
+
         <activity
             android:name=".activities.AppMainActivity"
             android:exported="true">
@@ -19,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

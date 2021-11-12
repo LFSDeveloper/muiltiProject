@@ -33,15 +33,15 @@ object AppComponentProvider {
      * entry points
      */
     val mainEntryCompPublicFaces: List<AppCompPublicFace>
-        get() = compPublicFaces.filter { it.getDetails().isMainAppEntry }.sortedBy {
-            it.getDetails().mainEntry?.order
+        get() = compPublicFaces.filter { it.getInfo().isMainAppEntry }.sortedBy {
+            it.getInfo().mainEntry?.order
         }
 
     /**
      * Returns the app home component
      */
     private val homeCompPublicFace: AppCompPublicFace
-        get() = mainEntryCompPublicFaces.find { it.getDetails().mainEntry?.home == true }
+        get() = mainEntryCompPublicFaces.find { it.getInfo().mainEntry?.home == true }
             ?: throw IllegalStateException("There is no home app component")
 
     /**
@@ -49,7 +49,7 @@ object AppComponentProvider {
      */
     private fun inflateComponent(koin: Koin, component: AppCompPublicFace) {
         // load component into DI framework
-        koin.loadModules(component.getDetails().objectGraph)
+        koin.loadModules(component.getInfo().objectGraph)
 
         // add loaded component into the ones loaded
         loadedComponents.add(component)
@@ -59,16 +59,16 @@ object AppComponentProvider {
      * Remove a loaded component from memory
      */
     fun removeComponent(koin: Koin, component: AppComponent) {
-        val compPublicFace = loadedComponents.find { it.getDetails().type == component }
+        val compPublicFace = loadedComponents.find { it.getInfo().type == component }
 
         // tells if intended component to remove is not main entry point
-        val isNotEntryComp = compPublicFace?.getDetails()?.type !in mainEntryCompPublicFaces.map {
-            it.getDetails().type
+        val isNotEntryComp = compPublicFace?.getInfo()?.type !in mainEntryCompPublicFaces.map {
+            it.getInfo().type
         }
 
         // do the removal only if component is within set and not an entry point
         if (loadedComponents.contains(compPublicFace) && isNotEntryComp) {
-            compPublicFace?.getDetails()?.objectGraph?.let { koin.unloadModules(it) }
+            compPublicFace?.getInfo()?.objectGraph?.let { koin.unloadModules(it) }
             loadedComponents.remove(compPublicFace)
         }
     }
@@ -102,14 +102,14 @@ object AppComponentProvider {
      * @return the component [type] public Interface
      */
     fun getOrInflateComp(type: AppComponent, koin: Koin): AppCompPublicFace {
-        val compPublicFace = compPublicFaces.find { it.getDetails().type == type }
+        val compPublicFace = compPublicFaces.find { it.getInfo().type == type }
             ?: throw IllegalStateException("Component $type is missing a Public Face")
 
         return when {
             loadedComponents.contains(compPublicFace) -> compPublicFace
 
             else -> {
-                koin.loadModules(compPublicFace.getDetails().objectGraph)
+                koin.loadModules(compPublicFace.getInfo().objectGraph)
                 loadedComponents.add(compPublicFace)
                 compPublicFace
             }

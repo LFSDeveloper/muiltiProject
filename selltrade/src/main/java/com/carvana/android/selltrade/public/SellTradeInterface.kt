@@ -1,5 +1,8 @@
 package com.carvana.android.selltrade.public
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import com.carvana.android.common.models.AppComponent
 import com.carvana.android.common.models.AppComponentInfo
 import com.carvana.android.common.models.AppFeature
@@ -13,9 +16,11 @@ import com.carvana.android.common.R as commonR
 /**
  * Account Public Interface Implementer
  */
-class SellTradeInterface : AppCompPublicFace {
+class SellTradeInterface(
+    context: Context
+) : AppCompPublicFace(context) {
 
-    override fun getDetails(): AppComponentInfo = AppComponentInfo(
+    override fun getInfo(): AppComponentInfo = AppComponentInfo(
         id = commonR.id.SellTrade_id,
         type = AppComponent.SellTrade,
         mainEntry = AppMainEntry(
@@ -28,9 +33,7 @@ class SellTradeInterface : AppCompPublicFace {
         objectGraph = listOf(accountMainModule, viewModels)
     )
 
-    override fun navigateTo(feature: AppFeature) {
-        if (feature !in getDetails().type.features) {
-            // do nothing, associated component does not support target feature
-        }
+    override fun getLaunchingIntent(feature: AppFeature, bundle: Bundle?): Intent? {
+        return null
     }
 }

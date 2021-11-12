@@ -1,5 +1,8 @@
 package com.carvana.android.mycars.public
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import com.carvana.android.common.models.AppComponent
 import com.carvana.android.common.models.AppComponentInfo
 import com.carvana.android.common.models.AppFeature
@@ -13,9 +16,11 @@ import com.carvana.android.common.R as commonR
 /**
  * Account Public Interface Implementer
  */
-class MyCardsInterface : AppCompPublicFace {
+class MyCardsInterface(
+    context: Context
+) : AppCompPublicFace(context) {
 
-    override fun getDetails(): AppComponentInfo = AppComponentInfo(
+    override fun getInfo(): AppComponentInfo = AppComponentInfo(
         id = commonR.id.MyCars_id,
         type = AppComponent.MyCars,
         mainEntry = AppMainEntry(
@@ -28,9 +33,8 @@ class MyCardsInterface : AppCompPublicFace {
         objectGraph = listOf(accountMainModule, viewModels)
     )
 
-    override fun navigateTo(feature: AppFeature) {
-        if (feature !in getDetails().type.features) {
-            // do nothing, associated component does not support target feature
-        }
+    override fun getLaunchingIntent(feature: AppFeature, bundle: Bundle?): Intent? {
+        return null
     }
+
 }

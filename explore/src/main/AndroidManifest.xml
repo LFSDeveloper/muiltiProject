@@ -2,5 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.carvana.android.explore">
 
-
+    <application>
+        <activity android:name=".activities.SearchModalActivity" />
+    </application>
 </manifest>

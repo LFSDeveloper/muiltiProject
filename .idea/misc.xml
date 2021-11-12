@@ -6,7 +6,8 @@
         <entry key="../../../../../../layout/custom_preview.xml" value="0.5851282051282052" />
         <entry key="account/src/main/res/layout/fragment_account.xml" value="0.5778985507246377" />
         <entry key="account/src/main/res/layout/fragment_notifications.xml" value="0.5791666666666667" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5778985507246377" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="common/src/main/res/layout/activity_base_modal_activity.xml" value="0.1" />
         <entry key="common/src/main/res/layout/fragment_app_base.xml" value="0.5791666666666667" />
         <entry key="explore/src/main/res/layout/fragment_explore.xml" value="0.5778985507246377" />
         <entry key="explore/src/main/res/layout/fragment_search.xml" value="0.281661600810537" />

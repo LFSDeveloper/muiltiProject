@@ -1,6 +1,7 @@
 package com.carvana.android.myapplication.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -9,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.carvana.android.common.bases.AppBaseActivity
 import com.carvana.android.common.bases.AppDelegate
-import com.carvana.android.common.models.AppFeature
+import com.carvana.android.common.bases.AppNavFeature
 import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
@@ -56,7 +57,7 @@ class AppMainActivity : AppBaseActivity() {
         // inflating app main navigation graph
         val mainNavGraph = loadedNavController?.navInflater?.inflate(R.navigation.main_nav_graph)
 
-        mainEntryComps.mapNotNull { it.getDetails().mainEntry }.map { mainEntryInfo ->
+        mainEntryComps.mapNotNull { it.getInfo().mainEntry }.map { mainEntryInfo ->
             // inflate component nav graph
             loadedNavController?.navInflater?.inflate(
                 mainEntryInfo.navGraph
@@ -81,7 +82,7 @@ class AppMainActivity : AppBaseActivity() {
      */
     private fun inflateBottomNav(mainEntryComps: List<AppCompPublicFace>) {
         // holds the main components entry information
-        val mainEntries = mainEntryComps.mapNotNull { it.getDetails().mainEntry }
+        val mainEntries = mainEntryComps.mapNotNull { it.getInfo().mainEntry }
         val navInflater = navController?.navInflater
 
         val menu = viewBinding?.appNavBar?.menu
@@ -113,16 +114,33 @@ class AppMainActivity : AppBaseActivity() {
     /**
      * Handles navigation into components that participate into the app main entries
      */
-    private fun onMainEntryCompoNav(feature: AppFeature) {
+    private fun onMainEntryCompoNav(feature: AppNavFeature) {
         val componentType = AppComponentProvider.mainEntryCompPublicFaces.map {
-            it.getDetails().type
-        }.find { feature in it.features }
+            it.getInfo().type
+        }.find { feature.feature in it.features }
 
+        // find component out of its type
         val component = componentType?.let { AppComponentProvider.getOrInflateComp(it, getKoin()) }
-        val componentGraph = component?.getDetails()?.mainEntry?.navGraph?.let {
+
+        // inflate component public navGraph to determine bottomNavBar tab to select
+        val componentGraph = component?.getInfo()?.mainEntry?.navGraph?.let {
             navController?.navInflater?.inflate(it)
         }
+
+        // selecting component bottomNavBar associated tab
         val tabId = componentGraph?.startDestinationId
         tabId?.let { viewBinding?.appNavBar?.selectedItemId = it }
+
+        // navigating into feature associated destination
+        val featureDestId = feature.feature?.let { component?.getDestinationId(it) }
+        featureDestId?.let {
+            
+            // TODO: improve this navigation that could crash if dest can be reached from current dest
+            try {
+                navController?.navigate(it)
+            } catch (ex: Exception) {
+                Log.e("NavError", "Can't navigate using destination $it")
+            }
+        }
     }
 }
