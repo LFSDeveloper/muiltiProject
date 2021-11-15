@@ -5,11 +5,12 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "My Application"
-include ':app'
-include ':common'
-include ':explore'
-include ':selltrade'
-include ':mycars'
-include ':account'
-include ':prequal'
+include(":app")
+include(":common")
+include(":explore")
+include(":selltrade")
+include(":mycars")
+include(":account")
+include(":prequal")
