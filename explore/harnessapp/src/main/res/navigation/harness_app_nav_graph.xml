@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/harness_app_nav_graph"
+    app:startDestination="@id/harnessStartFragment">
+
+    <fragment
+        android:id="@+id/harnessStartFragment"
+        android:name="com.carvana.android.explore.harnessapp.HarnessStartFragment"
+        android:label="HarnessStartFragment" >
+        <action
+            android:id="@+id/action_harnessStartFragment_to_account_main_nav_graph"
+            app:destination="@id/account_main_nav_graph" />
+    </fragment>
+    <include app:graph="@navigation/explore_main_nav_graph" />
+</navigation>

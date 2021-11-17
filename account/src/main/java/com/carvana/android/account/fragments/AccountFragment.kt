@@ -23,7 +23,7 @@ class AccountFragment: AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_account, container, false)
 
         fragmentView.findViewById<Button>(R.id.button)?.apply {

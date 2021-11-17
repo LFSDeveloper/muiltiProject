@@ -28,7 +28,7 @@ class ExploreFragment : AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_explore, container, false)
 
         // navigates internally

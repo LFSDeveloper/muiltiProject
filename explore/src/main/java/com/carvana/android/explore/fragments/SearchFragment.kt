@@ -24,7 +24,7 @@ class SearchFragment : AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
         view.findViewById<Button>(R.id.prequal_button)?.apply {

@@ -6,7 +6,7 @@ import android.view.Menu
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.carvana.android.common.bases.AppBaseActivity
 import com.carvana.android.common.bases.AppDelegate
@@ -30,9 +30,7 @@ class AppMainActivity : AppBaseActivity() {
     private var viewBinding: ActivityMainBinding? = null
 
     override val navController: NavController?
-        get() =  (supportFragmentManager.findFragmentById(
-            R.id.app_nav_host_fragment
-        ) as? NavHostFragment)?.navController
+        get() = viewBinding?.appNavHostFragment?.findNavController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +132,7 @@ class AppMainActivity : AppBaseActivity() {
         // navigating into feature associated destination
         val featureDestId = feature.feature?.let { component?.getDestinationId(it) }
         featureDestId?.let {
-            
+
             // TODO: improve this navigation that could crash if dest can be reached from current dest
             try {
                 navController?.navigate(it)

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HarnessApp</string>
+    <string name="explore_harness_start_screen">Explore Harnnes App</string>
 </resources>

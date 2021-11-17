@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HarnessApp</string>
+    <string name="prequal_harness_app_start_screen">Prequal Harness App</string>
 </resources>

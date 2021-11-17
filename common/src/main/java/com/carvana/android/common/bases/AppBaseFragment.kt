@@ -25,7 +25,7 @@ abstract class AppBaseFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View
+    ): View?
 
     /**
      * Exposes the App navController down to all fragments
@@ -41,9 +41,10 @@ abstract class AppBaseFragment : Fragment() {
 
         val parentView = inflater.inflate(R.layout.fragment_app_base, container, false)
         val childView = generateView(inflater, container, savedInstanceState)
-
-        val childHost = parentView.findViewById<FrameLayout>(R.id.child_fragment_container)
-        childHost.addView(childView)
+        childView?.let {
+            val childHost = parentView.findViewById<FrameLayout>(R.id.child_fragment_container)
+            childHost.addView(it)
+        }
 
         return parentView
     }

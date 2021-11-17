@@ -23,7 +23,7 @@ class SellTradeFragment: AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_sell_trade, container, false)
 
         view.findViewById<Button>(R.id.button)?.apply {

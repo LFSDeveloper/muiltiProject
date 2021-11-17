@@ -18,7 +18,7 @@ class NextStepsFragment: AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         return inflater.inflate(R.layout.fragment_next_steps, container, false)
     }
 }

@@ -52,4 +52,5 @@ dependencies {
     }
 
     implementation(project(":mycars"), depsExclude)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 }

@@ -18,7 +18,7 @@ class Notifications: AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         return layoutInflater.inflate(R.layout.fragment_notifications, container, false)
     }
 

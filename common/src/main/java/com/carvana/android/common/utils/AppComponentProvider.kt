@@ -70,12 +70,7 @@ object AppComponentProvider {
      * Inflate the app components that represent app main Entry Points
      */
     fun inflateMainEntries(koin: Koin) {
-        // if appComponents is not empty do nothing (return)
-        compPublicFaces.takeIf { it.isEmpty() } ?: return
-
-        // get all app components presentation cards thought koin
-        val appCompPubFaces: List<AppCompPublicFace> = koin.getAll()
-        compPublicFaces = appCompPubFaces.toSet()
+        loadPublicFaces(koin)
 
         // load main entry components object graphs into Koin
         mainEntryCompPublicFaces.forEach {
@@ -92,6 +87,8 @@ object AppComponentProvider {
      * @return the component [type] public Interface
      */
     fun getOrInflateComp(type: AppComponent, koin: Koin): AppCompPublicFace {
+        loadPublicFaces(koin)
+
         val compPublicFace = compPublicFaces.find { it.getInfo().type == type }
             ?: throw IllegalStateException("Component $type is missing a Public Face")
 
@@ -106,4 +103,11 @@ object AppComponentProvider {
         }
     }
 
+    private fun loadPublicFaces(koin: Koin) {
+        if (compPublicFaces.isEmpty()) {
+            // get all app components presentation cards thought koin
+            val appCompPubFaces: List<AppCompPublicFace> = koin.getAll()
+            compPublicFaces = appCompPubFaces.toSet()
+        }
+    }
 }

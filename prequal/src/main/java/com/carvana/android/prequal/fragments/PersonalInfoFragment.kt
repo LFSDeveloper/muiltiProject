@@ -18,7 +18,7 @@ class PersonalInfoFragment : AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
     }
 }

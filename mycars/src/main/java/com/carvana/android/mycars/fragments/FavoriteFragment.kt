@@ -24,7 +24,7 @@ class FavoriteFragment : AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
 
         view.findViewById<Button>(R.id.search_modal)?.apply {

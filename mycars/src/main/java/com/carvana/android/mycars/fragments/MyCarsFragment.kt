@@ -23,7 +23,7 @@ class MyCarsFragment: AppBaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_my_cars, container, false)
 
         view.findViewById<Button>(R.id.button)?.apply {
