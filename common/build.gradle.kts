@@ -37,6 +37,11 @@ android {
 
 dependencies {
     // Koin core features
+//    api(libs.koin_core)
+//    api(carvana.android.)
+//    api(deps.koin-android)
+//    api(deps.androidx-navigation)
+
     api("io.insert-koin:koin-core:3.1.3")
     api("io.insert-koin:koin-android:3.1.3")
     api("io.insert-koin:koin-androidx-navigation:3.1.3")
