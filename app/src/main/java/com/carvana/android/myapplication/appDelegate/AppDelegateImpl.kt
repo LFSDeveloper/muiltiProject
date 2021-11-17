@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.carvana.android.common.bases.AppDelegate
 import com.carvana.android.common.bases.AppNavFeature
 import com.carvana.android.common.models.AppFeature
-import com.carvana.android.myapplication.utils.AppComponentProvider
+import com.carvana.android.common.utils.AppComponentProvider
 import org.koin.core.Koin
 
 /**

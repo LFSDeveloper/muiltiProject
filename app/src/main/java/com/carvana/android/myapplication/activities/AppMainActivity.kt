@@ -12,9 +12,9 @@ import com.carvana.android.common.bases.AppBaseActivity
 import com.carvana.android.common.bases.AppDelegate
 import com.carvana.android.common.bases.AppNavFeature
 import com.carvana.android.common.utils.AppCompPublicFace
+import com.carvana.android.common.utils.AppComponentProvider
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
-import com.carvana.android.myapplication.utils.AppComponentProvider
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

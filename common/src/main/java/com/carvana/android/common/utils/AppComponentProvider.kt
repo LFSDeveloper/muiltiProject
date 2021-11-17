@@ -1,19 +1,12 @@
-package com.carvana.android.myapplication.utils
+package com.carvana.android.common.utils
 
 import com.carvana.android.common.models.AppComponent
-import com.carvana.android.common.utils.AppCompPublicFace
-import com.carvana.android.myapplication.di.mainAppModules
-import com.carvana.android.myapplication.di.viewModels
 import org.koin.core.Koin
-import org.koin.core.module.Module
 
 /**
  * Defines the App Component provider
  */
 object AppComponentProvider {
-
-    private val appModules: List<Module>
-        get() = listOf(viewModels, mainAppModules)
 
     /**
      * Holds all the app components that are currently loaded in DI at minimum
@@ -88,9 +81,6 @@ object AppComponentProvider {
         mainEntryCompPublicFaces.forEach {
             inflateComponent(koin, it)
         }
-
-        // add app DI object graph
-        koin.loadModules(appModules)
     }
 
     /**

@@ -2,8 +2,10 @@ package com.carvana.android.myapplication
 
 import android.app.Application
 import com.carvana.android.account.di.accountCompPublicDi
+import com.carvana.android.common.utils.AppComponentProvider
 import com.carvana.android.explore.di.exploreCompPublicDi
-import com.carvana.android.myapplication.utils.AppComponentProvider
+import com.carvana.android.myapplication.di.mainAppModules
+import com.carvana.android.myapplication.di.viewModels
 import com.carvana.android.mycars.di.myCarsCompPublicDi
 import com.carvana.android.prequal.di.prequalCompPublicDi
 import com.carvana.android.selltrade.di.sellTradeCompPublicDi
@@ -11,17 +13,24 @@ import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 
 /**
  * Represents the application class
  */
 class AppApplication : Application() {
 
+    private val appModules: List<Module>
+        get() = listOf(viewModels, mainAppModules)
+
     override fun onCreate() {
         super.onCreate()
 
         // init koin
         startDi()
+
+        // inflate app di modules
+        getKoin().loadModules(appModules)
 
         // load main entry components
         AppComponentProvider.inflateMainEntries(getKoin())
