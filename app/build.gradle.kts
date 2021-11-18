@@ -27,6 +27,25 @@ android {
         }
     }
 
+    flavorDimensionList.add("AppFlavorDim")
+    productFlavors {
+        create("dev") {
+            dimension = "AppFlavorDim"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+
+        create("tst") {
+            dimension = "AppFlavorDim"
+            applicationIdSuffix = ".test"
+            versionNameSuffix = "-test"
+        }
+
+        create("prod") {
+            dimension = "AppFlavorDim"
+        }
+    }
+
     configure<JavaPluginConvention> {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

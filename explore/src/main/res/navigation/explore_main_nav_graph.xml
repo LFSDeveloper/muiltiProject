@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@id/Explore_id"
-        android:name="com.carvana.android.explore.fragments.ExploreFragment"
+        android:name="com.carvana.android.explore.fragments.explore.ExploreFragment"
         android:label="ExploreFragment" >
         <action
             android:id="@+id/action_Explore_id_to_searchFragment"

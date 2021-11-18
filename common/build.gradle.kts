@@ -4,25 +4,26 @@ plugins {
     id("kotlin-kapt")
 }
 
-//apply(from = ".../dependencies.gradle.kts")
-
 android {
     compileSdk = 31
 
     defaultConfig {
         minSdk = 21
         targetSdk = 31
-        
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
-    
+
     configure<JavaPluginConvention> {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -46,8 +47,15 @@ dependencies {
     api(libs.androidx.appCompat)
     api(libs.android.material)
 
+    api(libs.bundles.androidxLifecycle)
+    kapt(libs.androidx.lifecycle.runtime)
+
     // adding support to multi-stack
     api(libs.bundles.androidxKtNav)
+
+    api(libs.bundles.retrofit)
+
+    api(libs.bundles.coroutines)
 
     testApi(libs.junit)
 

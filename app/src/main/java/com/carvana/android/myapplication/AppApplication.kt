@@ -4,8 +4,10 @@ import android.app.Application
 import com.carvana.android.account.di.accountCompPublicDi
 import com.carvana.android.common.utils.AppComponentProvider
 import com.carvana.android.explore.di.exploreCompPublicDi
-import com.carvana.android.myapplication.di.mainAppModules
-import com.carvana.android.myapplication.di.viewModels
+import com.carvana.android.myapplication.di.environmentModule
+import com.carvana.android.myapplication.di.mainAppModule
+import com.carvana.android.myapplication.di.networkModule
+import com.carvana.android.myapplication.di.viewModelModule
 import com.carvana.android.mycars.di.myCarsCompPublicDi
 import com.carvana.android.prequal.di.prequalCompPublicDi
 import com.carvana.android.selltrade.di.sellTradeCompPublicDi
@@ -21,7 +23,7 @@ import org.koin.core.module.Module
 class AppApplication : Application() {
 
     private val appModules: List<Module>
-        get() = listOf(viewModels, mainAppModules)
+        get() = listOf(viewModelModule, mainAppModule, environmentModule, networkModule)
 
     override fun onCreate() {
         super.onCreate()

@@ -6,7 +6,7 @@ import android.view.Menu
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.carvana.android.common.bases.AppBaseActivity
 import com.carvana.android.common.bases.AppDelegate
@@ -15,6 +15,7 @@ import com.carvana.android.common.utils.AppCompPublicFace
 import com.carvana.android.common.utils.AppComponentProvider
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
+import com.carvana.android.myapplication.utils.AppEnvironment
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,11 +27,15 @@ class AppMainActivity : AppBaseActivity() {
 
     private val appDelegate: AppDelegate by inject()
 
+    private val environment: AppEnvironment by inject()
+
     private val viewModel: AppMainActivityViewModel by viewModel()
     private var viewBinding: ActivityMainBinding? = null
 
     override val navController: NavController?
-        get() = viewBinding?.appNavHostFragment?.findNavController()
+        get() =  (supportFragmentManager.findFragmentById(
+            R.id.app_nav_host_fragment
+        ) as? NavHostFragment)?.navController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +43,8 @@ class AppMainActivity : AppBaseActivity() {
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         AppComponentProvider.mainEntryCompPublicFaces.apply {
-            inflateBottomNav(this)
             createAppNavGraph(this)
+            inflateBottomNav(this)
 
             navController?.let { viewBinding?.appNavBar?.setupWithNavController(it) }
         }
@@ -47,6 +52,8 @@ class AppMainActivity : AppBaseActivity() {
         appDelegate.mainAppNavFlow.observe(this) {
             onMainEntryCompoNav(it)
         }
+
+        Log.v("Test", environment.buildVariant().name)
     }
 
     private fun createAppNavGraph(mainEntryComps: List<AppCompPublicFace>) {

@@ -41,4 +41,5 @@ android {
 dependencies {
 
     implementation(project(":common"))
+    kapt(libs.androidx.lifecycle.runtime)
 }

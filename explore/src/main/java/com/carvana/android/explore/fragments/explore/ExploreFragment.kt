@@ -1,4 +1,4 @@
-package com.carvana.android.explore.fragments
+package com.carvana.android.explore.fragments.explore
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +17,7 @@ import org.koin.android.ext.android.inject
  */
 class ExploreFragment : AppBaseFragment() {
 
+    private val viewModel: ExploreViewModel by inject()
     private val appDelegate: AppDelegate by inject()
 
     override val screenInfo: ScreenInfo = ScreenInfo(
@@ -45,6 +46,11 @@ class ExploreFragment : AppBaseFragment() {
             }
         }
 
+        fragmentView.findViewById<Button>(R.id.get_user)?.apply {
+            setOnClickListener {
+                viewModel.onGetUserClicked()
+            }
+        }
 
         return fragmentView
     }
