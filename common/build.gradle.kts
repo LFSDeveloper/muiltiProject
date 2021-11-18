@@ -4,6 +4,8 @@ plugins {
     id("kotlin-kapt")
 }
 
+//apply(from = ".../dependencies.gradle.kts")
+
 android {
     compileSdk = 31
 
@@ -36,28 +38,19 @@ android {
 }
 
 dependencies {
-    // Koin core features
-//    api(libs.koin_core)
-//    api(carvana.android.)
-//    api(deps.koin-android)
-//    api(deps.androidx-navigation)
 
-    api("io.insert-koin:koin-core:3.1.3")
-    api("io.insert-koin:koin-android:3.1.3")
-    api("io.insert-koin:koin-androidx-navigation:3.1.3")
+    // applying all koin major dependencies together
+    api(libs.bundles.koin)
 
-    // Koin test features
-    testApi("io.insert-koin:koin-test:3.1.3")
-
-    api("androidx.core:core-ktx:1.7.0")
-    api("androidx.appcompat:appcompat:1.3.1")
-    api("com.google.android.material:material:1.4.0")
+    api(libs.androidxKt.core)
+    api(libs.androidx.appCompat)
+    api(libs.android.material)
 
     // adding support to multi-stack
-    api("androidx.navigation:navigation-fragment-ktx:2.4.0-alpha02")
-    api("androidx.navigation:navigation-ui-ktx:2.4.0-alpha02")
+    api(libs.bundles.androidxKtNav)
 
-    testApi("junit:junit:4.+")
-    androidTestApi("androidx.test.ext:junit:1.1.3")
-    androidTestApi("androidx.test.espresso:espresso-core:3.4.0")
+    testApi(libs.junit)
+
+    androidTestApi(libs.androidx.test.ext)
+    androidTestApi(libs.androidx.test.espresso)
 }

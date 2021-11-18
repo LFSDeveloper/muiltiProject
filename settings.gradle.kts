@@ -1,14 +1,6 @@
-include(":account:harnessap")
+enableFeaturePreview("VERSION_CATALOGS")
 
 dependencyResolutionManagement {
-
-    // creating dependency catalog
-//    versionCatalogs {
-//        create("libs") {
-//            from(files("gradle/libs.versions.toml"))
-//        }
-//    }
-
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
@@ -17,7 +9,11 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "My Application"
+
+// main project
 include(":app")
+
+// components
 include(":common")
 include(":explore")
 include(":selltrade")
@@ -25,8 +21,9 @@ include(":mycars")
 include(":account")
 include(":prequal")
 
-enableFeaturePreview("VERSION_CATALOGS")
+// harness apps
 include(":explore:harnessapp")
 include(":mycars:harnessapp")
 include(":prequal:harnessapp")
 include(":selltrade:harnessapp")
+include(":account:harnessap")

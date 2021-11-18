@@ -1,7 +1,29 @@
 [versions]
 koin = "3.1.3"
+androidxKtCore = "1.7.0"
+androidxCompat = "1.3.1"
+androidMatereial = "1.4.0"
+androidXKtNavigation = "2.4.0-beta02"
+junit = "4.+"
+androidxTestExt = "1.1.3"
+androidxTestEspresso = "3.4.0"
 
 [libraries]
-koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
+koin-androidX-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+
+androidxKt-core = { module = "androidx.core:core-ktx", version.ref = "androidxKtCore" }
+androidx-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxCompat" }
+android-material = { module = "com.google.android.material:material", version.ref = "androidMatereial" }
+androidxKt-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidXKtNavigation" }
+androidxKt-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidXKtNavigation" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-ext = { module = "androidx.test.ext:junit", version.ref = "androidxTestExt" }
+androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }
+
+[bundles]
+koin = ["koin-core", "koin-android", "koin-androidX-navigation", "koin-test"]
+androidxKtNav = ["androidxKt-navigation-fragment", "androidxKt-navigation-ui"]
