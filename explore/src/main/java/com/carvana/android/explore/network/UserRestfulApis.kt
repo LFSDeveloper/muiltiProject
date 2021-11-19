@@ -9,6 +9,6 @@ import retrofit2.http.GET
  */
 interface UserRestfulApis {
 
-    @GET("user/data")
+    @GET("user")
     suspend fun getUser(): Response<User>
 }

@@ -1,6 +1,6 @@
 package com.carvana.android.explore.repositories
 
-import com.carvana.android.common.utils.RestFulFactory
+import com.carvana.android.common.utils.RestfulFactory
 import com.carvana.android.explore.models.User
 import com.carvana.android.explore.network.UserRestfulApis
 
@@ -13,7 +13,7 @@ interface UserRepository {
 }
 
 class UserRepositoryImpl(
-    private val networkFactory: RestFulFactory
+    private val networkFactory: RestfulFactory
 ) : UserRepository {
 
 

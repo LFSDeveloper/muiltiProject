@@ -12,6 +12,15 @@ data class AppEnvironment(
     val baseUrl: String,
     val analyticHeader: String
 ) {
+    /**
+     * User network request specific timeout
+     */
+    val userRequestTimeout = 3000
+
+    /**
+     * Search network request specific timeout
+     */
+    val searchRequestTimeout = 5000
 
     /**
      * Returns the app build variant associate with a flavor
