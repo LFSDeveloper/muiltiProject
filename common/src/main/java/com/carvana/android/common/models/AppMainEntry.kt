@@ -15,9 +15,9 @@ import androidx.annotation.StringRes
  * other [AppMainEntry] instances.
  */
 data class AppMainEntry(
-    val order: Int,
-    @StringRes val label: Int,
-    @DrawableRes val icon: Int? = null,
-    @NavigationRes val navGraph: Int,
-    val home: Boolean = false
+    var order: Int = 0,
+    @StringRes var label: Int = -1,
+    @DrawableRes var icon: Int? = null,
+    @NavigationRes var navGraph: Int = -1,
+    var home: Boolean = false
 )

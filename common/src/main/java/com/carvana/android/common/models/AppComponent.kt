@@ -8,7 +8,7 @@ package com.carvana.android.common.models
 enum class AppComponent(
     val features: List<AppFeature> = listOf()
 ) {
-
+    MainApp,
     Explore(
         listOf(
             AppFeature.ExploreHome, AppFeature.Srp, AppFeature.VDP, AppFeature.Filters,

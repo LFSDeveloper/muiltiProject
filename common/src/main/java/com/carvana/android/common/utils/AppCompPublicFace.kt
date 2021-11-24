@@ -49,7 +49,7 @@ abstract class AppCompPublicFace(
      * @param bundle data set to pass into [feature] main entry screen
      */
     fun navigateTo(feature: AppFeature, bundle: Bundle? = null) {
-        val isFeatureImpl = feature in getInfo().type.features
+        val isFeatureImpl = feature in getInfo().type?.features ?: listOf()
         isFeatureImpl.takeIf { it } ?: return
 
         val launchingIntent = getLaunchingIntent(feature, bundle)

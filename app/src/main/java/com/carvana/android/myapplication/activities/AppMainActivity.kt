@@ -3,6 +3,7 @@ package com.carvana.android.myapplication.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -16,9 +17,7 @@ import com.carvana.android.common.utils.AppComponentProvider
 import com.carvana.android.myapplication.R
 import com.carvana.android.myapplication.databinding.ActivityMainBinding
 import com.carvana.android.myapplication.utils.AppEnvironment
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Represent the app main activity as the main navigation host to all the app components
@@ -29,11 +28,11 @@ class AppMainActivity : AppBaseActivity() {
 
     private val environment: AppEnvironment by inject()
 
-    private val viewModel: AppMainActivityViewModel by viewModel()
+    private val viewModel: AppMainActivityViewModel by viewModels()
     private var viewBinding: ActivityMainBinding? = null
 
     override val navController: NavController?
-        get() =  (supportFragmentManager.findFragmentById(
+        get() = (supportFragmentManager.findFragmentById(
             R.id.app_nav_host_fragment
         ) as? NavHostFragment)?.navController
 
@@ -120,20 +119,15 @@ class AppMainActivity : AppBaseActivity() {
      * Handles navigation into components that participate into the app main entries
      */
     private fun onMainEntryCompoNav(feature: AppNavFeature) {
-        val componentType = AppComponentProvider.mainEntryCompPublicFaces.map {
-            it.getInfo().type
-        }.find { feature.feature in it.features }
-
-        // find component out of its type
-        val component = componentType?.let { AppComponentProvider.getOrInflateComp(it, getKoin()) }
+        val component = feature.feature?.let(AppComponentProvider::getComponentFace)
 
         // inflate component public navGraph to determine bottomNavBar tab to select
-        val componentGraph = component?.getInfo()?.mainEntry?.navGraph?.let {
+        val navGraph = component?.getInfo()?.mainEntry?.navGraph?.let {
             navController?.navInflater?.inflate(it)
         }
 
         // selecting component bottomNavBar associated tab
-        val tabId = componentGraph?.startDestinationId
+        val tabId = navGraph?.startDestinationId
         tabId?.let { viewBinding?.appNavBar?.selectedItemId = it }
 
         // navigating into feature associated destination

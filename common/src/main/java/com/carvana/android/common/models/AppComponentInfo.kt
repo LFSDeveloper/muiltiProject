@@ -21,10 +21,10 @@ import org.koin.core.module.Module
  * be put into an Explore Component (SRP, VDP, Filters)
  */
 data class AppComponentInfo(
-    @IdRes val id: Int,
-    val type: AppComponent,
-    val mainEntry: AppMainEntry? = null,
-    val objectGraph: List<Module>
+    @IdRes var id: Int = -1,
+    var type: AppComponent? = null,
+    var mainEntry: AppMainEntry? = null,
+    var objectGraph: List<Module> = listOf()
 ) {
 
     /**

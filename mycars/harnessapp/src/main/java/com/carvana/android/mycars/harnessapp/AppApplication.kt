@@ -19,7 +19,7 @@ class AppApplication : Application() {
 
         startDi()
 
-        AppComponentProvider.getOrInflateComp(AppComponent.MyCars, getKoin())
+        AppComponentProvider.loadComponent(getKoin(), AppComponent.MyCars)
     }
 
     private fun startDi() {

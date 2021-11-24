@@ -1,7 +1,9 @@
 package com.carvana.android.common.utils
 
 import com.carvana.android.common.models.AppComponent
+import com.carvana.android.common.models.AppFeature
 import org.koin.core.Koin
+import java.util.*
 
 /**
  * Defines the App Component provider
@@ -9,20 +11,15 @@ import org.koin.core.Koin
 object AppComponentProvider {
 
     /**
-     * Holds all the app components that are currently loaded in DI at minimum
-     */
-    private val loadedComponents: MutableSet<AppCompPublicFace> = mutableSetOf()
-
-    /**
      * Holds all the app components public interfaces
      *
      * Note: This does not mean components are inflated/loaded
      */
-    var compPublicFaces: Set<AppCompPublicFace> = setOf()
+    private var compPublicFaces: Set<AppCompPublicFace> = setOf()
         private set
 
     /**
-     * Pre-computed field that returns the app components that participated as app main
+     * Pre-computed field that returns the components that participate as app main
      * entry points
      */
     val mainEntryCompPublicFaces: List<AppCompPublicFace>
@@ -31,83 +28,158 @@ object AppComponentProvider {
         }
 
     /**
-     * Returns the app home component
+     * Computed field that returns the app home component
      */
     private val homeCompPublicFace: AppCompPublicFace
         get() = mainEntryCompPublicFaces.find { it.getInfo().mainEntry?.home == true }
             ?: throw IllegalStateException("There is no home app component")
 
     /**
-     * Inflates an specific component
+     * Computed field that returns all the mandatory components
+     * Mandatory: Will be always in memory
      */
-    private fun inflateComponent(koin: Koin, component: AppCompPublicFace) {
-        // load component into DI framework
-        koin.loadModules(component.getInfo().objectGraph)
-
-        // add loaded component into the ones loaded
-        loadedComponents.add(component)
-    }
+    private val mandatoryComponent: List<AppComponent>
+        get() = mainEntryCompPublicFaces.mapNotNull { it.getInfo().type } + AppComponent.MainApp
 
     /**
-     * Remove a loaded component from memory
+     * Holds all the loaded components into memory based on a navigation principle
      */
-    fun removeComponent(koin: Koin, component: AppComponent) {
-        val compPublicFace = loadedComponents.find { it.getInfo().type == component }
-
-        // tells if intended component to remove is not main entry point
-        val isNotEntryComp = compPublicFace?.getInfo()?.type !in mainEntryCompPublicFaces.map {
-            it.getInfo().type
-        }
-
-        // do the removal only if component is within set and not an entry point
-        if (loadedComponents.contains(compPublicFace) && isNotEntryComp) {
-            compPublicFace?.getInfo()?.objectGraph?.let { koin.unloadModules(it) }
-            loadedComponents.remove(compPublicFace)
-        }
-    }
+    private val componentStack: Stack<AppComponent> = Stack()
 
     /**
-     * Inflate the app components that represent app main Entry Points
+     * Loads a component into memory from an object graph perspective following
+     *
+     * a. if component not in stack, do full load and push it into stack
+     * b. if component is in stack then remove any component above it
+     *
+     * @param koin entity to load [component] into
+     * @param component to be loaded
      */
-    fun inflateMainEntries(koin: Koin) {
+    fun loadComponent(koin: Koin, component: AppComponent) {
         loadPublicFaces(koin)
 
-        // load main entry components object graphs into Koin
-        mainEntryCompPublicFaces.forEach {
-            inflateComponent(koin, it)
+        val isStackEmpty = componentStack.isEmpty()
+
+        when {
+            // if true. Component is mandatory and is already loaded
+            component in mandatoryComponent && !isStackEmpty -> clearStack(koin)
+
+            // if true. Component is mandatory and needs to be loaded
+            component in mandatoryComponent && isStackEmpty -> loadMandatoryComp(koin)
+
+            // if true. Component is at stack top. Do nothing
+            !isStackEmpty && componentStack.peek() == component -> return
+
+            // if true, component is already added so clear stack above it
+            !isStackEmpty && componentStack.contains(component) -> removeComponentAbove(
+                koin, component
+            )
+
+            // if true, component can be fully added into stack
+            else -> addNewComponent(koin, component)
+        }
+    }
+
+    fun loadComponent(koin: Koin, feature: AppFeature) {
+        val component = compPublicFaces.find {
+            feature in it.getInfo().type?.features ?: listOf()
+        }?.getInfo()?.type
+
+        component?.let { loadComponent(koin, it) }
+    }
+
+    /**
+     * Clears the [componentStack] leaving [mandatoryComponent] in it
+     */
+    private fun clearStack(koin: Koin) {
+        // predicate pointing to component to be remove from stack
+        val predicate: (AppComponent) -> Boolean = { it !in mandatoryComponent }
+
+        // hold all component that will be removed
+        val compToRemove = componentStack.filter(predicate)
+
+        // get objectGraph of all component to remove
+        val objectGraphs = compPublicFaces.filter { it.getInfo().type in compToRemove }.map {
+            it.getInfo().objectGraph
+        }.flatten()
+
+        // unLoad object graphs from koin
+        koin.unloadModules(objectGraphs)
+
+        // remove components from stack
+        componentStack.removeAll(predicate)
+    }
+
+    /**
+     * Loads all [mandatoryComponent] into [componentStack]
+     */
+    private fun loadMandatoryComp(koin: Koin) {
+        // mandatory components object graphs
+        val objectGraphs = compPublicFaces.filter { it.getInfo().type in mandatoryComponent }.map {
+            it.getInfo().objectGraph
+        }.flatten()
+
+        // load mandatory components object graphs into koin
+        koin.loadModules(objectGraphs)
+
+        // add mandatory components into stack. No need to follow any specific order
+        componentStack.addAll(mandatoryComponent)
+    }
+
+    /**
+     * Removes all component above [component] in stack
+     */
+    private fun removeComponentAbove(koin: Koin, component: AppComponent) {
+        val compIndex = componentStack.indexOf(component)
+        if (compIndex != -1) {
+            // component to be remove above component index
+            val compToRemove = componentStack.subList(compIndex + 1, componentStack.size)
+
+            // object graphs of components to remove
+            val objectGraphs = compPublicFaces.filter { it.getInfo().type in compToRemove }.map {
+                it.getInfo().objectGraph
+            }.flatten()
+
+            // remove object graphs from koin
+            koin.unloadModules(objectGraphs)
+
+            // remove components from stack
+            componentStack.removeAll(compToRemove)
         }
     }
 
     /**
-     * Returns a component information only after it gets inflates if is not
-     *
-     * @param type of component from where info is need it
-     * @param koin instance where component [type] object graph will be inflated
-     *
-     * @return the component [type] public Interface
+     * Adds a new component into stack
      */
-    fun getOrInflateComp(type: AppComponent, koin: Koin): AppCompPublicFace {
-        loadPublicFaces(koin)
+    private fun addNewComponent(koin: Koin, component: AppComponent) {
+        val objectGraph = compPublicFaces.find {
+            it.getInfo().type == component
+        }?.getInfo()?.objectGraph
 
-        val compPublicFace = compPublicFaces.find { it.getInfo().type == type }
-            ?: throw IllegalStateException("Component $type is missing a Public Face")
+        objectGraph?.let { koin.loadModules(it) }
 
-        return when {
-            loadedComponents.contains(compPublicFace) -> compPublicFace
-
-            else -> {
-                koin.loadModules(compPublicFace.getInfo().objectGraph)
-                loadedComponents.add(compPublicFace)
-                compPublicFace
-            }
-        }
+        componentStack.push(component)
     }
 
+    /**
+     * Try load all component public faces (Presentation cards)
+     */
     private fun loadPublicFaces(koin: Koin) {
         if (compPublicFaces.isEmpty()) {
-            // get all app components presentation cards thought koin
+            // get all app components presentation cards throughout koin
             val appCompPubFaces: List<AppCompPublicFace> = koin.getAll()
             compPublicFaces = appCompPubFaces.toSet()
         }
+    }
+
+    /**
+     * Returns a component public face based on a [feature] that it owns if component is already
+     * loaded
+     */
+    fun getComponentFace(feature: AppFeature): AppCompPublicFace? {
+        // gets a loaded component if not return null
+        val componentType = componentStack.find { feature in it.features } ?: return null
+
+        return compPublicFaces.find { it.getInfo().type == componentType }
     }
 }

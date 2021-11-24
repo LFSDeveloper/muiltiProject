@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="MainApp_id" type="id"/>
     <item name="Explore_id" type="id"/>
     <item name="SellTrade_id" type="id"/>
     <item name="MyCars_id" type="id"/>

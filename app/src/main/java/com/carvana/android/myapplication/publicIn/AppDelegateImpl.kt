@@ -1,4 +1,4 @@
-package com.carvana.android.myapplication.appDelegate
+package com.carvana.android.myapplication.publicIn
 
 import android.content.Context
 import android.os.Bundle
@@ -24,12 +24,8 @@ class AppDelegateImpl(
         get() = mainAppFlow
 
     override fun navigateTo(feature: AppFeature, bundle: Bundle?) {
-        // type of component owning feature
-        val componentType = AppComponentProvider.compPublicFaces.map {
-            it.getInfo().type
-        }.find { component ->
-            feature in component.features
-        }
+        // load component
+        AppComponentProvider.loadComponent(koin, feature)
 
         when (feature.isPublic) {
             // if true, delegate to main app component the navigation
@@ -37,10 +33,8 @@ class AppDelegateImpl(
 
             // if true, delegate navigation to component
             false -> {
-                val componentPubFace = componentType?.let {
-                    AppComponentProvider.getOrInflateComp(it, koin)
-                }
-                componentPubFace?.navigateTo(feature, bundle)
+                val componentFace = AppComponentProvider.getComponentFace(feature)
+                componentFace?.navigateTo(feature, bundle)
             }
         }
     }
